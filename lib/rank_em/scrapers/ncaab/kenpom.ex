@@ -3,15 +3,17 @@ defmodule RankEm.Scrapers.NCAAB.Kenpom do
 
   @url "https://kenpom.com/"
 
+  @spec scrape() :: list(map()) | {:error, any()}
   def scrape() do
-    %HTTPoison.Response{body: html, status_code: 200} = HTTPoison.get!(@url)
-    document = Floki.parse_document!(html)
-    rows = Floki.find(document, "table#ratings-table tbody tr")
+    with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(@url),
+         {:ok, document} <- Floki.parse_document(html) do
+      rows = Floki.find(document, "table#ratings-table tbody tr")
 
-    rows
-    |> Enum.map(&parse_row/1)
-    |> Enum.filter(&valid_attrs?/1)
-    |> Enum.map(&convert_attrs/1)
+      rows
+      |> Enum.map(&parse_row/1)
+      |> Enum.filter(&valid_attrs?/1)
+      |> Enum.map(&convert_attrs/1)
+    end
   end
 
   @stats ~w(AdjEM AdjO AdjD AdjT Luck SOSAdjEM SOSOppO SOSOppD NCSOSAdjEM)

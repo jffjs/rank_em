@@ -40,9 +40,7 @@ defmodule RankEm.Scrapers do
       attrs
       |> Map.put(:job_id, job.id)
       |> Map.put(:snapshot_ts, job.start_ts)
-      |> Map.put()
-
-      Rankings.create_snapshot(attrs)
+      |> Rankings.create_snapshot()
     end
 
     job_successful(job)
