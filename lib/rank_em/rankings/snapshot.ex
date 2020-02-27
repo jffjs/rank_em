@@ -29,7 +29,8 @@ defmodule RankEm.Rankings.Snapshot do
       :conference,
       :stats,
       :snapshot_ts,
-      :league
+      :league,
+      :job_id
     ])
     |> validate_required([
       :index,
@@ -40,7 +41,8 @@ defmodule RankEm.Rankings.Snapshot do
       :conference,
       :stats,
       :snapshot_ts,
-      :league
+      :league,
+      :job_id
     ])
   end
 end

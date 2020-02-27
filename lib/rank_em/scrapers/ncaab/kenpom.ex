@@ -1,18 +1,32 @@
 defmodule RankEm.Scrapers.NCAAB.Kenpom do
+  @behaviour RankEm.Scrapers.Scraper
+
   import RankEm.Scrapers.TableHelpers
 
-  @url "https://kenpom.com/"
+  @url "https://kenpom.com"
 
-  @spec scrape() :: list(map()) | {:error, any()}
+  @impl RankEm.Scrapers.Scraper
   def scrape() do
-    with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(@url),
-         {:ok, document} <- Floki.parse_document(html) do
-      rows = Floki.find(document, "table#ratings-table tbody tr")
+    with {:ok, %HTTPoison.Response{body: html, status_code: 200}} <- HTTPoison.get(@url),
+         {:ok, document} <- Floki.parse_document(html),
+         rows when rows != [] <- Floki.find(document, "table#ratings-table tbody tr") do
+      {:ok,
+       rows
+       |> Enum.map(&parse_row/1)
+       |> Enum.filter(&valid_attrs?/1)
+       |> Enum.map(&convert_attrs/1)}
+    else
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        {:error, "#{@url} returned status code #{status_code}"}
 
-      rows
-      |> Enum.map(&parse_row/1)
-      |> Enum.filter(&valid_attrs?/1)
-      |> Enum.map(&convert_attrs/1)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, Atom.to_string(reason)}
+
+      {:error, message} ->
+        {:error, message}
+
+      [] ->
+        {:error, "No results"}
     end
   end
 

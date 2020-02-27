@@ -7,4 +7,12 @@ defmodule RankEm.Rankings do
     |> Snapshot.changeset(attrs)
     |> Repo.insert()
   end
+
+  def list_snapshots() do
+    Repo.all(Snapshot)
+  end
+
+  def get_snapshot(id) do
+    Repo.get(Snapshot, id)
+  end
 end

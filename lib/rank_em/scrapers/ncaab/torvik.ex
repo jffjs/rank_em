@@ -1,17 +1,32 @@
 defmodule RankEm.Scrapers.NCAAB.Torvik do
+  @behaviour RankEm.Scrapers.Scraper
+
   import RankEm.Scrapers.TableHelpers
 
   @url "http://www.barttorvik.com/"
 
+  @impl RankEm.Scrapers.Scraper
   def scrape() do
     with {:ok, %HTTPoison.Response{body: html}} <- HTTPoison.get(@url),
-         {:ok, document} <- Floki.parse_document(html) do
-      rows = Floki.find(document, "table tbody tr")
+         {:ok, document} <- Floki.parse_document(html),
+         rows when rows != [] <- Floki.find(document, "table tbody tr") do
+      {:ok,
+       rows
+       |> Enum.map(&parse_row/1)
+       |> Enum.filter(&valid_attrs?/1)
+       |> Enum.map(&convert_attrs/1)}
+    else
+      {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        {:error, "#{@url} returned status code #{status_code}"}
 
-      rows
-      |> Enum.map(&parse_row/1)
-      |> Enum.filter(&valid_attrs?/1)
-      |> Enum.map(&convert_attrs/1)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, Atom.to_string(reason)}
+
+      {:error, message} ->
+        {:error, message}
+
+      [] ->
+        {:error, "No results"}
     end
   end
 

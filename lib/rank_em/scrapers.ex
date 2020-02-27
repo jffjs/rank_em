@@ -1,6 +1,7 @@
 defmodule RankEm.Scrapers do
   alias RankEm.Repo
   alias RankEm.Scrapers.Job
+  alias RankEm.Scrapers.Scraper
   alias RankEm.Rankings
 
   def create_job(scraper) do
@@ -34,16 +35,20 @@ defmodule RankEm.Scrapers do
 
   def run_job(%Job{status: "running"} = job) do
     scraper = String.to_existing_atom(job.scraper)
-    results = apply(scraper, :scrape, [])
 
-    for attrs <- results do
-      attrs
-      |> Map.put(:job_id, job.id)
-      |> Map.put(:snapshot_ts, job.start_ts)
-      |> Rankings.create_snapshot()
+    with {:ok, results} <- Scraper.scrape(scraper) do
+      for attrs <- results do
+        attrs
+        |> Map.put(:job_id, job.id)
+        |> Map.put(:snapshot_ts, job.start_ts)
+        |> Rankings.create_snapshot()
+      end
+
+      job_successful(job)
+    else
+      {:error, reason} ->
+        job_failed(job, reason)
     end
-
-    job_successful(job)
   end
 
   defp job_successful(%Job{status: "running"} = job) do
