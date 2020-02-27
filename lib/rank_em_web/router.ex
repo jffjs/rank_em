@@ -19,8 +19,9 @@ defmodule RankEmWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", RankEmWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", RankEmWeb.API.V1, as: :api_v1 do
+    pipe_through :api
+
+    get "/teams/:league/:team", TeamController, :team
+  end
 end

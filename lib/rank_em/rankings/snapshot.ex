@@ -2,6 +2,10 @@ defmodule RankEm.Rankings.Snapshot do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias RankEm.Rankings
+
+  @attrs ~w(index rank wins losses team conference stats snapshot_ts league job_id)a
+
   schema "rankings_snapshots" do
     field :index, :string
     field :conference, :string
@@ -20,29 +24,8 @@ defmodule RankEm.Rankings.Snapshot do
   @doc false
   def changeset(snapshot, attrs) do
     snapshot
-    |> cast(attrs, [
-      :index,
-      :rank,
-      :wins,
-      :losses,
-      :team,
-      :conference,
-      :stats,
-      :snapshot_ts,
-      :league,
-      :job_id
-    ])
-    |> validate_required([
-      :index,
-      :rank,
-      :wins,
-      :losses,
-      :team,
-      :conference,
-      :stats,
-      :snapshot_ts,
-      :league,
-      :job_id
-    ])
+    |> cast(attrs, @attrs)
+    |> validate_required(@attrs)
+    |> validate_inclusion(:league, Rankings.list_leagues())
   end
 end
