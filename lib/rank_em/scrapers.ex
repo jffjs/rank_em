@@ -1,13 +1,59 @@
 defmodule RankEm.Scrapers do
+  import Ecto.Query, only: [from: 2]
   alias RankEm.Repo
-  alias RankEm.Scrapers.Job
-  alias RankEm.Scrapers.Scraper
+  alias RankEm.Scrapers
+  alias RankEm.Scrapers.{Job, Scraper, Schedule}
   alias RankEm.Rankings
 
-  def create_job(scraper) do
+  @scrapers Enum.map(
+              [
+                Scrapers.NCAAB.Kenpom,
+                Scrapers.NCAAB.Torvik,
+                Scrapers.NCAAB.Net
+              ],
+              &Atom.to_string/1
+            )
+
+  def list_scrapers() do
+    @scrapers
+  end
+
+  def create_schedule(attrs \\ %{}) do
+    %Schedule{}
+    |> Schedule.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_schedule(id), do: Repo.get(Schedule, id)
+
+  def should_schedule_job?(schedule) do
+  end
+
+  def create_scheduled_job(%Schedule{scraper: scraper} = schedule) do
+    %Job{}
+    |> Job.changeset(%{status: "pending", scraper: scraper})
+    |> Job.put_schedule(schedule)
+    |> Repo.insert()
+  end
+
+  def create_ad_hoc_job(scraper) do
     %Job{}
     |> Job.changeset(%{status: "pending", scraper: Atom.to_string(scraper)})
     |> Repo.insert()
+  end
+
+  def get_last_run_job(%Schedule{id: schedule_id}) do
+    query =
+      from(j in Job,
+        where: j.schedule_id == ^schedule_id and j.status == "done",
+        order_by: [desc: :start_ts],
+        limit: 1
+      )
+
+    case Repo.all(query) do
+      [job] -> job
+      _ -> nil
+    end
   end
 
   @spec update_job(Job.t(), map()) :: {:ok, Job.t()} | {:error, Ecto.Changeset.t()}

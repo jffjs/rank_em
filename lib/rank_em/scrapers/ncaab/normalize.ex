@@ -59,7 +59,7 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "Col. of Charleston" => "Charleston",
     "Louisiana Lafayette" => "Louisiana",
     "Gardner-Webb" => "Gardner Webb",
-    "UTRGV" => "UT Rio Grand Valley",
+    "UTRGV" => "UT Rio Grande Valley",
     "Kansas City" => "UMKC",
     "Boston U." => "Boston University",
     "FGCU" => "Florida Gulf Coast",

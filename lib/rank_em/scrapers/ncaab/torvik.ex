@@ -2,6 +2,7 @@ defmodule RankEm.Scrapers.NCAAB.Torvik do
   @behaviour RankEm.Scrapers.Scraper
 
   import RankEm.Scrapers.TableHelpers
+  alias RankEm.Scrapers.NCAAB.Normalize
 
   @url "http://www.barttorvik.com/"
 
