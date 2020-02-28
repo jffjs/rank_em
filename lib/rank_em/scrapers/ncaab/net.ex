@@ -2,6 +2,7 @@ defmodule RankEm.Scrapers.NCAAB.Net do
   @behaviour RankEm.Scrapers.Scraper
 
   import RankEm.Scrapers.TableHelpers
+  alias RankEm.Scrapers.NCAAB.Normalize
 
   @url "https://www.ncaa.com/rankings/basketball-men/d1/ncaa-mens-basketball-net-rankings"
 
@@ -14,7 +15,8 @@ defmodule RankEm.Scrapers.NCAAB.Net do
        rows
        |> Enum.map(&parse_row/1)
        |> Enum.filter(&valid_attrs?/1)
-       |> Enum.map(&convert_attrs/1)}
+       |> Enum.map(&convert_attrs/1)
+       |> Enum.map(&normalize/1)}
     else
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "#{@url} returned status code #{status_code}"}
@@ -32,7 +34,7 @@ defmodule RankEm.Scrapers.NCAAB.Net do
 
   @stats ~w(road neutral home nonDivI)
 
-  def parse_row(row) do
+  defp parse_row(row) do
     %{}
     |> put_from_column(row, 1, :rank)
     |> put_from_column(row, 3, :team)
@@ -57,5 +59,13 @@ defmodule RankEm.Scrapers.NCAAB.Net do
     |> Map.put(:losses, losses)
     |> Map.put(:index, "net")
     |> Map.put(:league, "ncaab")
+  end
+
+  defp normalize(attrs) do
+    %{
+      attrs
+      | team: Normalize.team(attrs[:team]),
+        conference: Normalize.conference(attrs[:conference])
+    }
   end
 end

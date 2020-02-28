@@ -14,7 +14,8 @@ defmodule RankEm.Scrapers.NCAAB.Torvik do
        rows
        |> Enum.map(&parse_row/1)
        |> Enum.filter(&valid_attrs?/1)
-       |> Enum.map(&convert_attrs/1)}
+       |> Enum.map(&convert_attrs/1)
+       |> Enum.map(&normalize/1)}
     else
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
         {:error, "#{@url} returned status code #{status_code}"}
@@ -71,5 +72,13 @@ defmodule RankEm.Scrapers.NCAAB.Torvik do
     |> Map.put(:losses, losses)
     |> Map.put(:index, "torvik")
     |> Map.put(:league, "ncaab")
+  end
+
+  defp normalize(attrs) do
+    %{
+      attrs
+      | team: Normalize.team(attrs[:team]),
+        conference: Normalize.conference(attrs[:conference])
+    }
   end
 end

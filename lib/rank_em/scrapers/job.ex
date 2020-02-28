@@ -3,7 +3,11 @@ defmodule RankEm.Scrapers.Job do
   import Ecto.Changeset
 
   @statuses ~w(pending running done failed)
-  @scrapers ~w(Elixir.RankEm.Scrapers.NCAAB.Kenpom Elixir.RankEm.Scrapers.NCAAB.Torvik)
+  @scrapers ~w(
+    Elixir.RankEm.Scrapers.NCAAB.Kenpom
+    Elixir.RankEm.Scrapers.NCAAB.Torvik
+    Elixir.RankEm.Scrapers.NCAAB.Net
+    )
 
   schema "scraper_jobs" do
     field :end_ts, :naive_datetime
