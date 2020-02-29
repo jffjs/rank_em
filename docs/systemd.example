@@ -1,0 +1,19 @@
+[Unit]
+Description=Runner for RankEm
+After=network.target
+
+[Service]
+User=deploy
+Group=deploy
+WorkingDirectory=/home/deploy/rank_em
+Environment=LANG=en_US.UTF-8
+Environment=SECRET_KEY_BASE="run `mix phx.gen.secret` to generate one"
+Environment=DATABASE_URL="postgresql://deploy:ripoff-promoter-princess-missing@localhost/rank_em
+ExecStart=/home/deploy/rank_em/bin/rank_em start
+SyslogIdentifier=rank_em
+RemainAfterExit=no
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

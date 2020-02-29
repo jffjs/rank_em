@@ -26,7 +26,7 @@ defmodule RankEm.Scrapers do
 
   def get_schedule(id), do: Repo.get(Schedule, id)
 
-  def should_schedule_job?(schedule) do
+  def should_schedule_job?(_schedule) do
   end
 
   def create_scheduled_job(%Schedule{scraper: scraper} = schedule) do
