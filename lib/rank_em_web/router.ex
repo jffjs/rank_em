@@ -10,6 +10,11 @@ defmodule RankEmWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -24,6 +29,12 @@ defmodule RankEmWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/admin", RankEmWeb.Admin do
+    pipe_through [:browser, :protected]
+
+    ScheduleController
   end
 
   scope "/api/v1", RankEmWeb.API.V1, as: :api_v1 do

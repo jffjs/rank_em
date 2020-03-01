@@ -26,6 +26,24 @@ defmodule RankEm.Scrapers do
 
   def get_schedule(id), do: Repo.get(Schedule, id)
 
+  def get_schedule!(id), do: Repo.get!(Schedule, id)
+
+  def list_schedules do
+    Repo.all(Schedule)
+  end
+
+  def update_schedule(%Schedule{} = schedule, attrs) do
+    raise "TODO"
+  end
+
+  def delete_schedule(%Schedule{} = schedule) do
+    raise "TODO"
+  end
+
+  def change_schedule(%Schedule{} = schedule) do
+    raise "TODO"
+  end
+
   def should_schedule_job?(_schedule) do
   end
 
