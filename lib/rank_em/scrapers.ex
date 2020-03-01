@@ -33,15 +33,15 @@ defmodule RankEm.Scrapers do
   end
 
   def update_schedule(%Schedule{} = schedule, attrs) do
-    raise "TODO"
+    schedule |> Schedule.changeset(attrs) |> Repo.update()
   end
 
   def delete_schedule(%Schedule{} = schedule) do
-    raise "TODO"
+    Repo.delete(schedule)
   end
 
   def change_schedule(%Schedule{} = schedule) do
-    raise "TODO"
+    Schedule.changeset(schedule, %{})
   end
 
   def should_schedule_job?(_schedule) do

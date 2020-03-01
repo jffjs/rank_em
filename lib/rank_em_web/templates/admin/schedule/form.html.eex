@@ -6,6 +6,21 @@
   <% end %>
 
   <div>
+    <%= label f, :scraper, "Scraper" %>
+    <%= select f, :scraper, scraper_options() %>
+  </div>
+
+  <div>
+    <%= label f, :interval_seconds, "Interval in seconds" %>
+    <%= text_input f, :interval_seconds %>
+  </div>
+
+  <div>
+    <%= label f, :status, "Status" %>
+    <%= select f, :status, schedule_statuses() %>
+  </div>
+
+  <div>
     <%= submit "Save" %>
   </div>
 <% end %>

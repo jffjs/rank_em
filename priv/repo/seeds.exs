@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias RankEm.Users
+
+{:ok, _user} =
+  Users.create(%{
+    email: "admin@rankm.app",
+    password: "ChangeMe123",
+    password_confirmation: "ChangeMe123"
+  })

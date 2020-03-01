@@ -57,6 +57,7 @@ defmodule RankEmWeb.ScheduleControllerTest do
 
     test "redirects when data is valid", %{conn: conn, schedule: schedule} do
       conn = put(conn, Routes.schedule_path(conn, :update, schedule), schedule: @update_attrs)
+
       assert redirected_to(conn) == Routes.schedule_path(conn, :show, schedule)
 
       conn = get(conn, Routes.schedule_path(conn, :show, schedule))
@@ -65,6 +66,7 @@ defmodule RankEmWeb.ScheduleControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, schedule: schedule} do
       conn = put(conn, Routes.schedule_path(conn, :update, schedule), schedule: @invalid_attrs)
+
       assert html_response(conn, 200) =~ "Edit Schedule"
     end
   end
@@ -75,6 +77,7 @@ defmodule RankEmWeb.ScheduleControllerTest do
     test "deletes chosen schedule", %{conn: conn, schedule: schedule} do
       conn = delete(conn, Routes.schedule_path(conn, :delete, schedule))
       assert redirected_to(conn) == Routes.schedule_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.schedule_path(conn, :show, schedule))
       end

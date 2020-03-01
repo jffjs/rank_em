@@ -22,8 +22,12 @@ defmodule RankEm.Scrapers.Schedule do
     schedule
     |> cast(attrs, [:scraper, :interval_seconds, :status])
     |> validate_required([:scraper, :interval_seconds, :status])
-    |> validate_inclusion(:status, @statuses)
+    |> validate_inclusion(:status, statuses())
     |> validate_inclusion(:scraper, Scrapers.list_scrapers())
     |> validate_number(:interval_seconds, greater_than_or_equal_to: @min_interval)
+  end
+
+  def statuses() do
+    @statuses
   end
 end

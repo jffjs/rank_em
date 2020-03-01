@@ -27,6 +27,23 @@ defmodule RankEm.ReleaseTasks do
     IO.puts("Success!")
   end
 
+  def create_admin() do
+    email = System.get_env("ADMIN_EMAIL", "admin@rankm.app")
+
+    password =
+      System.get_env("ADMIN_PASSWORD") ||
+        raise "environment variable ADMIN_PASSWORD is missing."
+
+    startup()
+
+    {:ok, _user} =
+      RankEm.Users.create(%{
+        email: email,
+        password: password,
+        password_confirmation: password
+      })
+  end
+
   defp startup() do
     IO.puts("Loading rank_em...")
 

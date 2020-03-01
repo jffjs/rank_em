@@ -19,22 +19,22 @@ defmodule RankEmWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/" do
+  scope "/admin" do
     pipe_through :browser
 
     pow_session_routes()
+  end
+
+  scope "/admin", RankEmWeb.Admin do
+    pipe_through [:browser, :protected]
+
+    resources "/schedules", ScheduleController
   end
 
   scope "/", RankEmWeb do
     pipe_through :browser
 
     get "/", PageController, :index
-  end
-
-  scope "/admin", RankEmWeb.Admin do
-    pipe_through [:browser, :protected]
-
-    ScheduleController
   end
 
   scope "/api/v1", RankEmWeb.API.V1, as: :api_v1 do
