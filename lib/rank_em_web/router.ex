@@ -1,5 +1,6 @@
 defmodule RankEmWeb.Router do
   use RankEmWeb, :router
+  use Pow.Phoenix.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +12,12 @@ defmodule RankEmWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    pow_session_routes()
   end
 
   scope "/", RankEmWeb do

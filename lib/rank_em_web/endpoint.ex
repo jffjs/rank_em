@@ -43,5 +43,6 @@ defmodule RankEmWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+  plug Pow.Plug.Session, otp_app: :rank_em
   plug RankEmWeb.Router
 end
