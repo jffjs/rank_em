@@ -5,6 +5,8 @@ defmodule RankEm.Scrapers do
   alias RankEm.Scrapers.{Job, Scraper, Schedule}
   alias RankEm.Rankings
 
+  # TODO:
+  # NCAAB: AP, Coaches, Massey, Sagarin, TeamRankings
   @scrapers Enum.map(
               [
                 Scrapers.NCAAB.Kenpom,
@@ -44,9 +46,23 @@ defmodule RankEm.Scrapers do
     Schedule.changeset(schedule, %{})
   end
 
-  def should_schedule_job?(_schedule) do
+  def should_schedule_job?(schedule) do
+    job = get_last_run_job(schedule)
+
+    if job do
+      now = NaiveDateTime.utc_now()
+      next_run_time = NaiveDateTime.add(job.start_ts, schedule.interval_seconds)
+
+      case NaiveDateTime.compare(now, next_run_time) do
+        :lt -> false
+        _ -> true
+      end
+    else
+      true
+    end
   end
 
+  @spec create_scheduled_job(RankEm.Scrapers.Schedule.t()) :: any
   def create_scheduled_job(%Schedule{scraper: scraper} = schedule) do
     %Job{}
     |> Job.changeset(%{status: "pending", scraper: scraper})

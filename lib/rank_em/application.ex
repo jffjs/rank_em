@@ -11,9 +11,11 @@ defmodule RankEm.Application do
       # Start the Ecto repository
       RankEm.Repo,
       # Start the endpoint when the application starts
-      RankEmWeb.Endpoint
+      RankEmWeb.Endpoint,
       # Starts a worker by calling: RankEm.Worker.start_link(arg)
       # {RankEm.Worker, arg},
+      RankEm.Scrapers.Scheduler,
+      {Task.Supervisor, name: RankEm.Scrapers.JobSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
