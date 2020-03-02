@@ -14,7 +14,7 @@ defmodule RankEm.Application do
       RankEmWeb.Endpoint,
       # Starts a worker by calling: RankEm.Worker.start_link(arg)
       # {RankEm.Worker, arg},
-      RankEm.Scrapers.Scheduler,
+      {RankEm.Scrapers.Scheduler, name: RankEm.Scrapers.Scheduler},
       {Task.Supervisor, name: RankEm.Scrapers.JobSupervisor}
     ]
 

@@ -1,8 +1,34 @@
 <h1>Show Schedule</h1>
 
 <ul>
-
+  <li><strong>Scraper: </strong><%= shorten_scraper_name(@schedule.scraper) %></li>
+  <li><strong>Interval (sec): </strong><%= @schedule.interval_seconds %>
+  <li><strong>Status: </strong><%= String.capitalize(@schedule.status) %></li>
 </ul>
+
+<h2>Jobs</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Status</th>
+      <th>Duration (sec)</th>
+      <th>Started at</th>
+      <th>Ended at</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for job <- @schedule.jobs do %>
+    <tr>
+      <td><%= job.id %></td>
+      <td><%= String.capitalize(job.status) %></td>
+      <td><%= NaiveDateTime.diff(job.end_ts, job.start_ts) %>
+      <td><%= NaiveDateTime.to_iso8601(job.start_ts) %>
+      <td><%= NaiveDateTime.to_iso8601(job.end_ts) %>
+    </tr>
+<% end %>
+  </tbody>
+</table>
 
 <span><%= link "Edit", to: Routes.schedule_path(@conn, :edit, @schedule) %></span>
 <span><%= link "Back", to: Routes.schedule_path(@conn, :index) %></span>

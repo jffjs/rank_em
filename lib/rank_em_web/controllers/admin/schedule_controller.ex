@@ -27,7 +27,7 @@ defmodule RankEmWeb.Admin.ScheduleController do
   end
 
   def show(conn, %{"id" => id}) do
-    schedule = Scrapers.get_schedule!(id)
+    schedule = Scrapers.get_schedule!(id, preload: :jobs)
     render(conn, "show.html", schedule: schedule)
   end
 

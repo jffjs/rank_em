@@ -1,5 +1,5 @@
 defmodule RankEm.Scrapers do
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query, only: [from: 2, preload: 2]
   alias RankEm.Repo
   alias RankEm.Scrapers
   alias RankEm.Scrapers.{Job, Scraper, Schedule}
@@ -21,32 +21,51 @@ defmodule RankEm.Scrapers do
   end
 
   def create_schedule(attrs \\ %{}) do
-    %Schedule{}
-    |> Schedule.changeset(attrs)
-    |> Repo.insert()
+    with {:ok, _schedule} = result <-
+           %Schedule{}
+           |> Schedule.changeset(attrs)
+           |> Repo.insert() do
+      Scrapers.Scheduler.update_schedules()
+      result
+    end
   end
 
   def get_schedule(id), do: Repo.get(Schedule, id)
 
+  def get_schedule(id, preload: preload_assoc),
+    do: Schedule |> preload(^preload_assoc) |> Repo.get(id)
+
   def get_schedule!(id), do: Repo.get!(Schedule, id)
+
+  def get_schedule!(id, preload: preload_assoc),
+    do: Schedule |> preload(^preload_assoc) |> Repo.get!(id)
 
   def list_schedules do
     Repo.all(Schedule)
   end
 
   def update_schedule(%Schedule{} = schedule, attrs) do
-    schedule |> Schedule.changeset(attrs) |> Repo.update()
+    with {:ok, _schedule} = result <-
+           schedule |> Schedule.changeset(attrs) |> Repo.update() do
+      Scrapers.Scheduler.update_schedules()
+      result
+    end
   end
 
   def delete_schedule(%Schedule{} = schedule) do
-    Repo.delete(schedule)
+    with {:ok, _schedule} = result <- Repo.delete(schedule) do
+      Scrapers.Scheduler.update_schedules()
+      result
+    end
   end
 
   def change_schedule(%Schedule{} = schedule) do
     Schedule.changeset(schedule, %{})
   end
 
-  def should_schedule_job?(schedule) do
+  def should_schedule_job?(%Schedule{status: "inactive"}), do: false
+
+  def should_schedule_job?(%Schedule{status: "active"} = schedule) do
     job = get_last_run_job(schedule)
 
     if job do

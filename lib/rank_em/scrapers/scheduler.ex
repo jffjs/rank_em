@@ -1,4 +1,5 @@
 defmodule RankEm.Scrapers.Scheduler do
+  require Logger
   use GenServer
 
   alias RankEm.Scrapers
@@ -9,26 +10,31 @@ defmodule RankEm.Scrapers.Scheduler do
     GenServer.start_link(__MODULE__, nil, opts)
   end
 
-  def add_schedule(scheduler \\ __MODULE__, schedule) do
-    GenServer.cast(scheduler, {:add_schedule, schedule})
+  def update_schedules() do
+    GenServer.cast(__MODULE__, :update_schedules)
   end
 
   def init(_) do
-    IO.puts("Scheduler: starting...")
-    Process.send_after(self(), :check_schedules, @interval_msec)
-    {:ok, Scrapers.list_schedules()}
+    if IEx.started?() || System.get_env("DISABLE_SCHEDULER") do
+      :ignore
+    else
+      log("Starting...")
+      Process.send_after(self(), :check_schedules, @interval_msec)
+      {:ok, Scrapers.list_schedules()}
+    end
   end
 
-  def handle_cast({:add_schedule, schedule}, schedules) do
-    {:noreply, [schedule | schedules]}
+  def handle_cast(:update_schedules, _schedules) do
+    log("Updating schedules...")
+    {:noreply, Scrapers.list_schedules()}
   end
 
   def handle_info(:check_schedules, schedules) do
-    IO.puts("Scheduler: checking schedules...")
+    log("Checking schedules...")
 
     for schedule <- schedules do
       if Scrapers.should_schedule_job?(schedule) do
-        IO.puts("Scheduler: starting job for schedule id #{schedule.id}")
+        log("Starting job for schedule id #{schedule.id}")
         {:ok, job} = Scrapers.create_scheduled_job(schedule)
         Task.Supervisor.async(Scrapers.JobSupervisor, Scrapers, :start_job, [job])
       end
@@ -41,7 +47,11 @@ defmodule RankEm.Scrapers.Scheduler do
   def handle_info({ref, {:ok, %Scrapers.Job{} = job}}, schedules) do
     Process.demonitor(ref, [:flush])
 
-    IO.puts("Scheduler: job id #{job.id} - status #{job.status}")
+    log("Job id #{job.id} - status #{job.status}")
     {:noreply, schedules}
+  end
+
+  defp log(msg) do
+    Logger.info("Scheduler: #{msg}")
   end
 end
