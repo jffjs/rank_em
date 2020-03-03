@@ -10,4 +10,5 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
+- [] Enable schedules to activate/deactivate at day of year/month/week and hour
 - [] Setup database backup policy

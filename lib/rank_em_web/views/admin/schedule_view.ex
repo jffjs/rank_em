@@ -1,6 +1,7 @@
 defmodule RankEmWeb.Admin.ScheduleView do
   use RankEmWeb, :view
 
+  alias RankEm.Scheduling.Schedule
   alias RankEm.Scrapers
 
   def scraper_options() do
@@ -10,7 +11,7 @@ defmodule RankEmWeb.Admin.ScheduleView do
   end
 
   def schedule_statuses() do
-    Enum.map(Scrapers.Schedule.statuses(), fn status ->
+    Enum.map(Schedule.statuses(), fn status ->
       {String.capitalize(status), status}
     end)
   end

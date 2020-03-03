@@ -16,7 +16,7 @@ defmodule RankEm.Rankings.Snapshot do
     field :snapshot_ts, :naive_datetime
     field :stats, :map
     field :team, :string
-    belongs_to :job, RankEm.Scrapers.Job
+    belongs_to :job, RankEm.Scheduling.Job
 
     timestamps()
   end

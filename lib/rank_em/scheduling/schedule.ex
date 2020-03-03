@@ -1,9 +1,9 @@
-defmodule RankEm.Scrapers.Schedule do
+defmodule RankEm.Scheduling.Schedule do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias RankEm.Scrapers
-  alias RankEm.Scrapers.Job
+  alias RankEm.Scheduling.Job
 
   @statuses ~w(active inactive)
   @min_interval 60

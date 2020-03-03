@@ -14,8 +14,8 @@ defmodule RankEm.Application do
       RankEmWeb.Endpoint,
       # Starts a worker by calling: RankEm.Worker.start_link(arg)
       # {RankEm.Worker, arg},
-      {RankEm.Scrapers.Scheduler, name: RankEm.Scrapers.Scheduler},
-      {Task.Supervisor, name: RankEm.Scrapers.JobSupervisor}
+      {RankEm.Scheduling.Scheduler, name: RankEm.Scheduling.Scheduler},
+      {Task.Supervisor, name: RankEm.Scheduling.JobSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

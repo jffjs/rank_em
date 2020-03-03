@@ -1,8 +1,9 @@
-defmodule RankEm.Scrapers.Job do
+defmodule RankEm.Scheduling.Job do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias RankEm.Scrapers
+  alias RankEm.Scheduling.Schedule
 
   @statuses ~w(pending running done failed)
 
@@ -12,7 +13,7 @@ defmodule RankEm.Scrapers.Job do
     field :start_ts, :naive_datetime
     field :status, :string
     field :failure_msg, :string
-    belongs_to :schedule, Scrapers.Schedule
+    belongs_to :schedule, Schedule
 
     timestamps()
   end
