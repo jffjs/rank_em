@@ -12,8 +12,10 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "pac-12" => "P12",
     "pac12" => "P12",
     "pactwelve" => "P12",
+    "pacific12" => "P12",
     "bigeast" => "BE",
     "aac" => "Amer",
+    "americanathletic" => "Amer",
     "socon" => "SC",
     "atlantic10" => "A10",
     "atlanticten" => "A10",
@@ -32,7 +34,10 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "summit" => "Sum",
     "summitleague" => "Sum",
     "bigsouth" => "BSth",
-    "americaeast" => "AE"
+    "americaeast" => "AE",
+    "westcoast" => "WCC",
+    "southeastern" => "SEC",
+    "atlanticcoast" => "ACC"
   }
   def conference(conf) do
     normalized = conf |> String.replace(~r/\s/, "") |> String.downcase()
@@ -52,7 +57,8 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "Central Conn. St." => "Central Connecticut",
     "Southeastern La." => "Southeastern Louisiana",
     "North Carolina St." => "N.C. State",
-    "NC State" => "N.C. State",
+    "NC St." => "N.C. State",
+    "N.C. St." => "N.C. State",
     "Fort Wayne" => "Purdue Fort Wayne",
     "LIU Brooklyn" => "LIU",
     "College of Charleston" => "Charleston",
@@ -121,6 +127,7 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
   }
 
   def team(team) do
+    team = String.replace(team, "State", "St.")
     Map.get(@team_map, team, team)
   end
 end

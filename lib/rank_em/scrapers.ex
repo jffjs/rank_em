@@ -11,7 +11,8 @@ defmodule RankEm.Scrapers do
               [
                 Scrapers.NCAAB.Kenpom,
                 Scrapers.NCAAB.Torvik,
-                Scrapers.NCAAB.Net
+                Scrapers.NCAAB.Net,
+                Scrapers.NCAAB.ApPoll
               ],
               &Atom.to_string/1
             )
