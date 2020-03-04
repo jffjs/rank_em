@@ -1,4 +1,7 @@
 defmodule RankEm.Scheduling.Recurrence do
+  use Ecto.Type
+  def type, do: :string
+
   def day_of_year({day, _, _, _}), do: day
   def day_of_month({_, day, _, _}), do: day
   def day_of_week({_, _, day, _}), do: day
@@ -29,12 +32,34 @@ defmodule RankEm.Scheduling.Recurrence do
     end
   end
 
-  def cast({year, month, week, hour} = recurrence)
-      when is_integer(year) and is_integer(month) and is_integer(week) and is_integer(hour) do
+  def cast({_year, _month, _week, _hour} = recurrence) do
     {:ok, recurrence}
   end
 
   def cast(_), do: :error
+
+  def load(data) do
+    {:ok, parse(data)}
+  end
+
+  def dump({year, month, week, hour}) do
+    str =
+      ""
+      |> append_part_to_string("Y", year)
+      |> append_part_to_string("M", month)
+      |> append_part_to_string("W", week)
+      |> append_part_to_string("H", hour)
+
+    case str do
+      "" ->
+        :error
+
+      _ ->
+        {:ok, str}
+    end
+  end
+
+  def dump(_), do: :error
 
   @re ~r/^([Yy](\d+))?([Mm](\d+))?([Ww](\d+))?([Hh](\d+))?$/
 
@@ -63,5 +88,14 @@ defmodule RankEm.Scheduling.Recurrence do
       "" -> nil
       _ -> String.to_integer(part)
     end
+  end
+
+  defp append_part_to_string(string, label, value) do
+    string <>
+      if value do
+        "#{label}#{value}"
+      else
+        ""
+      end
   end
 end

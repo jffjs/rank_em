@@ -13,11 +13,24 @@
   <div>
     <%= label f, :interval_seconds, "Interval in seconds" %>
     <%= text_input f, :interval_seconds %>
+    <%= error_tag f, :interval_seconds %>
   </div>
 
   <div>
     <%= label f, :status, "Status" %>
     <%= select f, :status, schedule_statuses() %>
+  </div>
+
+  <div>
+    <%= label f, :activate_recurrence, "Activate Recurrence" %>
+    <%= text_input f, :activate_recurrence %>
+    <%= error_tag f, :activate_recurrence %>
+  </div>
+
+  <div>
+    <%= label f, :deactivate_recurrence, "Deactivate Recurrence" %>
+    <%= text_input f, :deactivate_recurrence %>
+    <%= error_tag f, :deactivate_recurrence %>
   </div>
 
   <div>
