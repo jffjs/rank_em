@@ -34,6 +34,18 @@ defmodule RankEm.Scheduling.Scheduler do
     log("Checking schedules...")
 
     for schedule <- schedules do
+      {:ok, schedule} =
+        cond do
+          Scheduling.should_schedule_activate?(schedule) ->
+            Scheduling.update_schedule(schedule, %{status: "active"})
+
+          Scheduling.should_schedule_deactivate?(schedule) ->
+            Scheduling.update_schedule(schedule, %{status: "inactive"})
+
+          true ->
+            {:ok, schedule}
+        end
+
       if Scheduling.should_schedule_job?(schedule) do
         log("Starting job for schedule id #{schedule.id}")
         {:ok, job} = Scheduling.create_scheduled_job(schedule)

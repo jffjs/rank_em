@@ -1,6 +1,9 @@
+# TODO: just use a string so forms work still...
 defmodule RankEm.Scheduling.Recurrence do
   use Ecto.Type
   def type, do: :string
+
+  alias RankEm.Scheduling.Recurrence
 
   def day_of_year({day, _, _, _}), do: day
   def day_of_month({_, day, _, _}), do: day
@@ -26,6 +29,16 @@ defmodule RankEm.Scheduling.Recurrence do
       (hour == now.hour || is_nil(hour))
   end
 
+  def check_recurrence(_), do: false
+
+  def to_string({year, month, week, hour}) do
+    ""
+    |> append_part_to_string("Y", year)
+    |> append_part_to_string("M", month)
+    |> append_part_to_string("W", week)
+    |> append_part_to_string("H", hour)
+  end
+
   def cast(recurrence_str) when is_binary(recurrence_str) do
     with recurrence when is_tuple(recurrence) <- parse(recurrence_str) do
       {:ok, recurrence}
@@ -42,19 +55,12 @@ defmodule RankEm.Scheduling.Recurrence do
     {:ok, parse(data)}
   end
 
-  def dump({year, month, week, hour}) do
-    str =
-      ""
-      |> append_part_to_string("Y", year)
-      |> append_part_to_string("M", month)
-      |> append_part_to_string("W", week)
-      |> append_part_to_string("H", hour)
-
-    case str do
+  def dump({_, _, _, _} = recurrence) do
+    case Recurrence.to_string(recurrence) do
       "" ->
         :error
 
-      _ ->
+      str ->
         {:ok, str}
     end
   end

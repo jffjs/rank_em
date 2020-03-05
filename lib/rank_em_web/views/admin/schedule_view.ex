@@ -1,7 +1,7 @@
 defmodule RankEmWeb.Admin.ScheduleView do
   use RankEmWeb, :view
 
-  alias RankEm.Scheduling.Schedule
+  alias RankEm.Scheduling.{Recurrence, Schedule}
   alias RankEm.Scrapers
 
   def scraper_options() do
@@ -18,5 +18,9 @@ defmodule RankEmWeb.Admin.ScheduleView do
 
   def shorten_scraper_name(scraper) do
     String.replace(scraper, "Elixir.RankEm.Scrapers.", "")
+  end
+
+  def recurrence_string(recurrence) do
+    Recurrence.to_string(recurrence)
   end
 end

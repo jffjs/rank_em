@@ -3,7 +3,7 @@ defmodule RankEm.Scheduling do
 
   alias RankEm.Rankings
   alias RankEm.Repo
-  alias RankEm.Scheduling.{Schedule, Scheduler, Job}
+  alias RankEm.Scheduling.{Schedule, Scheduler, Job, Recurrence}
   alias RankEm.Scrapers.Scraper
 
   def create_schedule(attrs \\ %{}) do
@@ -67,7 +67,19 @@ defmodule RankEm.Scheduling do
     end
   end
 
-  @spec create_scheduled_job(RankEm.Scheduling.Schedule.t()) :: any
+  def should_schedule_activate?(%Schedule{status: "inactive", activate_recurrence: recurrence}) do
+    Recurrence.check_recurrence(recurrence)
+  end
+
+  def should_schedule_activate?(_), do: false
+
+  def should_schedule_deactivate?(%Schedule{status: "active", deactivate_recurrence: recurrence}) do
+    Recurrence.check_recurrence(recurrence)
+  end
+
+  def should_schedule_deactivate?(_), do: false
+
+  @spec create_scheduled_job(Schedule.t()) :: any
   def create_scheduled_job(%Schedule{scraper: scraper} = schedule) do
     %Job{}
     |> Job.changeset(%{status: "pending", scraper: scraper})
