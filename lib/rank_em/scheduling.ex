@@ -18,13 +18,19 @@ defmodule RankEm.Scheduling do
 
   def get_schedule(id), do: Repo.get(Schedule, id)
 
-  def get_schedule(id, preload: preload_assoc),
-    do: Schedule |> preload(^preload_assoc) |> Repo.get(id)
+  def get_schedule(id, with_jobs: limit) do
+    Schedule
+    |> preload(jobs: ^ordered_jobs_query(limit))
+    |> Repo.get(id)
+  end
 
   def get_schedule!(id), do: Repo.get!(Schedule, id)
 
-  def get_schedule!(id, preload: preload_assoc),
-    do: Schedule |> preload(^preload_assoc) |> Repo.get!(id)
+  def get_schedule!(id, with_jobs: limit) do
+    Schedule
+    |> preload(jobs: ^ordered_jobs_query(limit))
+    |> Repo.get!(id)
+  end
 
   def list_schedules do
     Repo.all(Schedule)
@@ -156,5 +162,9 @@ defmodule RankEm.Scheduling do
   defp job_failed(%Job{status: "running"} = job, failure_msg) do
     end_ts = NaiveDateTime.utc_now()
     update_job(job, %{end_ts: end_ts, status: "failed", failure_msg: failure_msg})
+  end
+
+  defp ordered_jobs_query(limit) do
+    from j in Job, order_by: [desc: j.start_ts], limit: ^limit
   end
 end

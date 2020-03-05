@@ -4,6 +4,12 @@
   <li><strong>Scraper: </strong><%= shorten_scraper_name(@schedule.scraper) %></li>
   <li><strong>Interval (sec): </strong><%= @schedule.interval_seconds %>
   <li><strong>Status: </strong><%= String.capitalize(@schedule.status) %></li>
+  <%= if @schedule.activate_recurrence do %>
+  <li><strong>Activate Recurrence: </strong><%= @schedule.activate_recurrence %></li>
+  <% end %>
+  <%= if @schedule.deactivate_recurrence do %>
+  <li><strong>Deactivate Recurrence: </strong><%= @schedule.deactivate_recurrence %></li>
+  <% end %>
 </ul>
 
 <h2>Jobs</h2>
