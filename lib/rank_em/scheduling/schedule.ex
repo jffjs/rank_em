@@ -3,7 +3,7 @@ defmodule RankEm.Scheduling.Schedule do
   import Ecto.Changeset
 
   alias RankEm.Scrapers
-  alias RankEm.Scheduling.{Job, Recurrence}
+  alias RankEm.Scheduling.Job
 
   @statuses ~w(active inactive)
   @min_interval 60
@@ -12,8 +12,8 @@ defmodule RankEm.Scheduling.Schedule do
     field :interval_seconds, :integer
     field :scraper, :string
     field :status, :string
-    field :activate_recurrence, Recurrence
-    field :deactivate_recurrence, Recurrence
+    field :activate_recurrence, :string
+    field :deactivate_recurrence, :string
     has_many :jobs, Job
 
     timestamps()
