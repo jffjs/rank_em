@@ -1,0 +1,11 @@
+[Unit]
+Description=Back up rank_em database to mounted volume
+Wants=db-backup.timer
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/bin/pg_dump -d postgresql://deploy:PASSWORD@localhost/rank_em -F t > /mnt/volume_nyc1_01/rank_em-db-bak.tar
+
+[Install]
+WantedBy=multi-user.target

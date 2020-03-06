@@ -82,3 +82,11 @@ sudo ufw allow https
 sudo ufw allow http
 sudo ufw enable
 ```
+
+Setup database backup
+```bash
+sudo vim /etc/systemd/system/db-backup.timer
+sudo vim /etc/systemd/system/db-backup.service
+sudo systemctl daemon-reload
+sudo systemctl enable db-backup.timer db-backup.service
+```

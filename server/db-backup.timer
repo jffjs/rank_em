@@ -1,0 +1,10 @@
+[Unit]
+Description=Run db-backup every 24 hours
+Requires=db-backup.service
+
+[Timer]
+Unit=db-backup.service
+OnCalendar=*-*-* 07:00:00
+
+[Install]
+WantedBy=timers.target

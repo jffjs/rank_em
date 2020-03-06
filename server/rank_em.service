@@ -8,7 +8,7 @@ Group=deploy
 WorkingDirectory=/home/deploy/rank_em
 Environment=LANG=en_US.UTF-8
 Environment=SECRET_KEY_BASE="run `mix phx.gen.secret` to generate one"
-Environment=DATABASE_URL="postgresql://deploy:PASSWORD@localhost/rank_em
+Environment=DATABASE_URL="postgresql://deploy:PASSWORD@localhost/rank_em"
 ExecStart=/home/deploy/rank_em/bin/rank_em start
 SyslogIdentifier=rank_em
 RemainAfterExit=no
