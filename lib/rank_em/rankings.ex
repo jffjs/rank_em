@@ -1,4 +1,6 @@
 defmodule RankEm.Rankings do
+  import Ecto.Query, only: [from: 2]
+
   alias RankEm.Repo
   alias RankEm.Rankings
   alias RankEm.Rankings.Snapshot
@@ -25,4 +27,24 @@ defmodule RankEm.Rankings do
 
   def list_team_rankings("ncaab", team), do: Rankings.NCAAB.list_team_rankings(team)
   def list_team_rankings(_invalid_league, _team), do: []
+
+  def team_conferences(teams, league) when is_list(teams) do
+    query =
+      from s in Snapshot,
+        select: {s.team, s.conference},
+        where: s.team in ^teams and s.league == ^league,
+        distinct: s.team
+
+    Repo.all(query)
+  end
+
+  def team_conferences(team, league) when is_binary(team) do
+    query =
+      from s in Snapshot,
+        select: {s.team, s.conference},
+        where: s.team == ^team and s.league == ^league,
+        distinct: s.team
+
+    Repo.all(query)
+  end
 end

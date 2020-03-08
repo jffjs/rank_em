@@ -16,5 +16,6 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - [] Sagarin
   - [] Massey
   - [] TeamRankings
-- [] Setup database backup policy
+- [X] Setup database backup policy
+- [] Test database backup restore
 - [] v1 API
