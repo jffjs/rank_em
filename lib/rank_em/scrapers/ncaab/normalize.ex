@@ -123,7 +123,8 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "Eastern Wash." => "Eastern Washington",
     "Eastern Mich." => "Eastern Michigan",
     "Alcorn" => "Alcorn St.",
-    "CSUN" => "Cal St. Northridge"
+    "CSUN" => "Cal St. Northridge",
+    "Michigan St" => "Michigan St."
   }
 
   def team(team) do
