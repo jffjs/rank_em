@@ -13,4 +13,10 @@
   <% end %>
 </ul>
 
+<%= if !@job.schedule_id && @job.status == "pending" do %>
+  <%= form_for @conn, Routes.job_path(@conn, :start, @job)%>
+    <%= submit "Start Job" %>
+  </form>
+<% end %>
+
 <span><%= link "Back", to: Routes.job_path(@conn, :index) %></span>

@@ -12,7 +12,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## TODO
 - [X] Enable schedules to activate/deactivate at day of year/month/week and hour
 - [] Finish NCAAB scrapers
-  - [] Coaches Poll
+  - [X] Coaches Poll
   - [] Sagarin
   - [] Massey
   - [] TeamRankings

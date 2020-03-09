@@ -1,5 +1,7 @@
 <h1>Listing Jobs</h1>
 
+<span><%= link "New ad-hoc Job", to: Routes.job_path(@conn, :new) %></span>
+
 <table>
   <thead>
     <tr>
@@ -9,6 +11,7 @@
       <th>Duration (sec)</th>
       <th>Started at</th>
       <th>Ended at</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -40,4 +43,3 @@
   </tbody>
 </table>
 
-<span><%= link "New ad-hoc Job", to: Routes.job_path(@conn, :new) %></span>

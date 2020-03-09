@@ -49,7 +49,7 @@ defmodule RankEm.Scheduling.Scheduler do
       if Scheduling.should_schedule_job?(schedule) do
         log("Starting job for schedule id #{schedule.id}")
         {:ok, job} = Scheduling.create_scheduled_job(schedule)
-        Task.Supervisor.async(Scheduling.JobSupervisor, Scheduling, :start_job, [job])
+        Scheduling.start_and_run_job_async(job)
       end
     end
 

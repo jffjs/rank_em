@@ -3,6 +3,7 @@ defmodule RankEm.Scheduling do
 
   alias RankEm.Rankings
   alias RankEm.Repo
+  alias RankEm.Scheduling
   alias RankEm.Scheduling.{Schedule, Scheduler, Job, Recurrence}
   alias RankEm.Scrapers.Scraper
 
@@ -138,13 +139,16 @@ defmodule RankEm.Scheduling do
 
   def start_job(%Job{status: "pending"} = job) do
     start_ts = NaiveDateTime.utc_now()
+    update_job(job, %{start_ts: start_ts, status: "running"})
+  end
 
-    with {:ok, job} <- update_job(job, %{start_ts: start_ts, status: "running"}) do
-      run_job(job)
+  def start_and_run_job(%Job{status: "pending"} = job) do
+    with {:ok, job} <- start_job(job) do
+      execute_job(job)
     end
   end
 
-  def run_job(%Job{status: "running"} = job) do
+  def execute_job(%Job{status: "running"} = job) do
     scraper = String.to_existing_atom(job.scraper)
 
     with {:ok, results} <- Scraper.scrape(scraper) do
@@ -160,6 +164,14 @@ defmodule RankEm.Scheduling do
       {:error, reason} ->
         job_failed(job, reason)
     end
+  end
+
+  def start_and_run_job_async(job) do
+    Task.Supervisor.async(Scheduling.JobSupervisor, Scheduling, :start_and_run_job, [job])
+  end
+
+  def execute_job_async(job) do
+    Task.Supervisor.async(Scheduling.JobSupervisor, Scheduling, :execute_job, [job])
   end
 
   defp job_successful(%Job{status: "running"} = job) do

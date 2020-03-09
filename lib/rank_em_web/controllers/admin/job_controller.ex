@@ -28,4 +28,16 @@ defmodule RankEmWeb.Admin.JobController do
   def show(conn, %{"id" => id}) do
     render(conn, "show.html", job: Scheduling.get_job(id))
   end
+
+  def start(conn, %{"id" => id}) do
+    job = Scheduling.get_job!(id)
+
+    with {:ok, job} <- Scheduling.start_job(job) do
+      Scheduling.execute_job_async(job)
+
+      conn
+      |> put_flash(:info, "Job started.")
+      |> redirect(to: Routes.job_path(conn, :show, job))
+    end
+  end
 end
