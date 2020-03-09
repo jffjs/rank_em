@@ -3,11 +3,15 @@ defmodule RankEmWeb.API.V1.TeamView do
 
   @attributes ~w(index rank stats)a
 
+  def render("index.json", %{data: teams}) do
+    %{data: teams}
+  end
+
   def render("team.json", %{data: snapshots}) do
     %{data: snapshots |> Enum.map(&Map.take(&1, @attributes))}
   end
 
-  def render("index_for_team.json", %{data: snapshot}) do
+  def render("ranking.json", %{data: snapshot}) do
     %{data: Map.take(snapshot, @attributes)}
   end
 end

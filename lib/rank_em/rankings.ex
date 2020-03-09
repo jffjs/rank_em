@@ -11,6 +11,17 @@ defmodule RankEm.Rankings do
     @leagues
   end
 
+  def list_teams(league) do
+    query =
+      from s in Snapshot,
+        select: s.team,
+        where: s.league == ^league,
+        distinct: s.team,
+        order_by: [asc: :team]
+
+    Repo.all(query)
+  end
+
   def create_snapshot(attrs \\ %{}) do
     %Snapshot{}
     |> Snapshot.changeset(attrs)
@@ -37,6 +48,16 @@ defmodule RankEm.Rankings do
 
   def list_team_rankings("ncaab", team), do: Rankings.NCAAB.list_team_rankings(team)
   def list_team_rankings(_invalid_league, _team), do: []
+
+  def list_index_rankings(league, index) do
+    query =
+      from s in Snapshot,
+        where: s.index == ^index and s.league == ^league,
+        distinct: [asc: s.rank],
+        order_by: [desc: :snapshot_ts]
+
+    Repo.all(query)
+  end
 
   def team_conferences(teams, league) when is_list(teams) do
     query =
