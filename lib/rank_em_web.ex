@@ -41,6 +41,7 @@ defmodule RankEmWeb do
 
       import RankEmWeb.ErrorHelpers
       import RankEmWeb.Gettext
+      import RankEmWeb.ViewHelpers
       alias RankEmWeb.Router.Helpers, as: Routes
     end
   end

@@ -29,6 +29,7 @@ defmodule RankEmWeb.Router do
     pipe_through [:browser, :protected]
 
     resources "/schedules", ScheduleController
+    resources "/jobs", JobController, only: [:index, :new, :create, :show]
   end
 
   scope "/", RankEmWeb do

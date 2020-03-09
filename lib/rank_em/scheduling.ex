@@ -113,6 +113,10 @@ defmodule RankEm.Scheduling do
     end
   end
 
+  def change_job(%Job{} = job) do
+    Job.changeset(job, %{})
+  end
+
   @spec update_job(Job.t(), map()) :: {:ok, Job.t()} | {:error, Ecto.Changeset.t()}
   def update_job(job, attrs \\ %{}) do
     job
