@@ -25,6 +25,16 @@ defmodule RankEm.Rankings do
     Repo.get(Snapshot, id)
   end
 
+  def team_ranking_for_index(league, team, index) do
+    query =
+      from s in Snapshot,
+        where: s.team == ^team and s.index == ^index and s.league == ^league,
+        order_by: [desc: :snapshot_ts],
+        limit: 1
+
+    Repo.all(query) |> List.first()
+  end
+
   def list_team_rankings("ncaab", team), do: Rankings.NCAAB.list_team_rankings(team)
   def list_team_rankings(_invalid_league, _team), do: []
 

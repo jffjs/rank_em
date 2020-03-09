@@ -43,5 +43,6 @@ defmodule RankEmWeb.Router do
     pipe_through :api
 
     get "/teams/:league/:team", TeamController, :team
+    get "/teams/:league/:team/:index", TeamController, :index_for_team
   end
 end
