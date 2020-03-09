@@ -1,0 +1,43 @@
+<h1>Listing Jobs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Scraper</th>
+      <th>Status</th>
+      <th>Duration (sec)</th>
+      <th>Started at</th>
+      <th>Ended at</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for job <- @jobs do %>
+    <tr>
+      <td><%= job.id %>
+      <td><%= shorten_scraper_name(job.scraper) %></td>
+      <td><%= String.capitalize(job.status) %>
+      <td>
+      <%= if job.start_ts && job.end_ts do %>
+        <%= NaiveDateTime.diff(job.end_ts, job.start_ts) %>
+      <% end %>
+      </td>
+      <td>
+      <%= if job.start_ts do %>
+        <%= NaiveDateTime.to_iso8601(job.start_ts) %>
+      <% end %>
+      </td>
+      <td>
+      <%= if job.start_ts do %>
+        <%= NaiveDateTime.to_iso8601(job.end_ts) %>
+      <% end %>
+      </td>
+      <td>
+        <span><%= link "Show", to: Routes.job_path(@conn, :show, job) %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New ad-hoc Job", to: Routes.job_path(@conn, :new) %></span>

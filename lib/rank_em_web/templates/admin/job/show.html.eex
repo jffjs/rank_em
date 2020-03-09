@@ -1,0 +1,16 @@
+<%= if @job.schedule_id do %>
+<h1>Show scheduled Job</h1>
+<%= link "Show schedule", to: Routes.schedule_path(@conn, :show, @job.schedule_id) %>
+<% else %>
+<h1>Show ad-hoc Job</h1>
+<% end %>
+
+<ul>
+  <li><strong>Scraper: </strong><%= shorten_scraper_name(@job.scraper) %></li>
+  <li><strong>Status: </strong><%= String.capitalize(@job.status) %></li>
+  <%= if @job.failure_msg do %>
+  <li><strong>Failure Reason: </strong><%= @job.failure_msg %>
+  <% end %>
+</ul>
+
+<span><%= link "Back", to: Routes.job_path(@conn, :index) %></span>

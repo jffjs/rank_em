@@ -28,9 +28,9 @@
     <tr>
       <td><%= job.id %></td>
       <td><%= String.capitalize(job.status) %></td>
-      <td><%= NaiveDateTime.diff(job.end_ts, job.start_ts) %>
-      <td><%= NaiveDateTime.to_iso8601(job.start_ts) %>
-      <td><%= NaiveDateTime.to_iso8601(job.end_ts) %>
+      <td><%= NaiveDateTime.diff(job.end_ts, job.start_ts) %></td>
+      <td><%= NaiveDateTime.to_iso8601(job.start_ts) %></td>
+      <td><%= NaiveDateTime.to_iso8601(job.end_ts) %></td>
     </tr>
 <% end %>
   </tbody>

@@ -125,12 +125,16 @@ defmodule RankEm.Scheduling do
   end
 
   def list_jobs() do
-    Repo.all(Job)
+    Repo.all(from j in Job, order_by: [desc: :start_ts])
   end
 
-  def get_job(id) do
-    Repo.get(Job, id)
+  def list_jobs(limit) do
+    Repo.all(from j in Job, order_by: [desc: :start_ts], limit: ^limit)
   end
+
+  def get_job(id), do: Repo.get(Job, id)
+
+  def get_job!(id), do: Repo.get!(Job, id)
 
   def start_job(%Job{status: "pending"} = job) do
     start_ts = NaiveDateTime.utc_now()
