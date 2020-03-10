@@ -1,0 +1,5 @@
+<h1>Reports</h1>
+
+<ul>
+  <li><%= link "Failed Jobs", to: Routes.reports_path(@conn, :failed_jobs) %></li>
+</ul>

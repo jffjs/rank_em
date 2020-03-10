@@ -19,3 +19,5 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [X] Setup database backup policy
 - [] Test database backup restore
 - [] v1 API
+- [] Reporting
+  - [] failed jobs

@@ -31,6 +31,9 @@ defmodule RankEmWeb.Router do
     resources "/schedules", ScheduleController
     resources "/jobs", JobController, only: [:index, :new, :create, :show]
     post "/jobs/:id/start", JobController, :start
+
+    get "/reports", ReportsController, :index
+    get "/reports/failed_jobs", ReportsController, :failed_jobs
   end
 
   scope "/", RankEmWeb do

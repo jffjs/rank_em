@@ -16,6 +16,9 @@
           <ul>
           <%= if @current_user do %>
             <li>
+              <%= link "Reports", to: Routes.reports_path(@conn, :index) %>
+            </li>
+            <li>
               <%= link "Jobs", to: Routes.job_path(@conn, :index) %>
             </li>
             <li>
