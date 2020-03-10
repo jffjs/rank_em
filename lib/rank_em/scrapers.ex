@@ -9,7 +9,8 @@ defmodule RankEm.Scrapers do
                 Scrapers.NCAAB.Torvik,
                 Scrapers.NCAAB.Net,
                 Scrapers.NCAAB.ApPoll,
-                Scrapers.NCAAB.CoachesPoll
+                Scrapers.NCAAB.CoachesPoll,
+                Scrapers.NCAAB.Massey
               ],
               &Atom.to_string/1
             )

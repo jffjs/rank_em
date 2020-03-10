@@ -3,8 +3,8 @@ defmodule RankEm.Scrapers.TableHelpers do
     Floki.find(row, "td:nth-child(#{n})") |> List.first()
   end
 
-  def link(column) do
-    Floki.find(column, "a") |> List.first()
+  def link(element) do
+    Floki.find(element, "a") |> List.first()
   end
 
   def put_from_column(attrs, row, n, field) do

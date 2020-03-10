@@ -17,6 +17,7 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "aac" => "Amer",
     "americanathletic" => "Amer",
     "socon" => "SC",
+    "southern" => "SC",
     "atlantic10" => "A10",
     "atlanticten" => "A10",
     "atlanticsun" => "ASun",
@@ -29,15 +30,29 @@ defmodule RankEm.Scrapers.NCAAB.Normalize do
     "bigsky" => "BSky",
     "sunbelt" => "SB",
     "patriot" => "Pat",
+    "patriotleague" => "Pat",
     "pat" => "Pat",
     "horizon" => "Horz",
     "summit" => "Sum",
     "summitleague" => "Sum",
+    "summitlg" => "Sum",
     "bigsouth" => "BSth",
     "americaeast" => "AE",
     "westcoast" => "WCC",
     "southeastern" => "SEC",
-    "atlanticcoast" => "ACC"
+    "atlanticcoast" => "ACC",
+    "missourival" => "MVC",
+    "missourivalley" => "MVC",
+    "mid-american" => "MAC",
+    "westernathletic" => "WAC",
+    "conferenceusa" => "CUSA",
+    "ohvalley" => "OVC",
+    "ohiovalley" => "OVC",
+    "colonial" => "CAA",
+    "metroatlantic" => "MAAC",
+    "northeast" => "NEC",
+    "southwesternac" => "SWAC",
+    "mid-easternac" => "MEAC"
   }
   def conference(conf) do
     normalized = conf |> String.replace(~r/\s/, "") |> String.downcase()
