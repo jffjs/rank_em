@@ -14,10 +14,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [] Finish NCAAB scrapers
   - [X] Coaches Poll
   - [] Sagarin
-  - [] Massey
+  - [X] Massey
   - [] TeamRankings
 - [X] Setup database backup policy
 - [] Test database backup restore
 - [] v1 API
 - [] Reporting
-  - [] failed jobs
+  - [X] failed jobs
