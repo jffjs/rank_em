@@ -1,5 +1,5 @@
 defmodule RankEm.Rankings do
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query, only: [from: 2, except: 2]
 
   alias RankEm.Repo
   alias RankEm.Rankings
@@ -77,5 +77,18 @@ defmodule RankEm.Rankings do
         distinct: s.team
 
     Repo.all(query)
+  end
+
+  def list_index_teams_diff(league, index1, index2) do
+    q1 = teams_query(league, index1)
+    q2 = teams_query(league, index2) |> except(^q1)
+    Repo.all(q2)
+  end
+
+  defp teams_query(league, index) do
+    from s in Snapshot,
+      select: s.team,
+      where: s.league == ^league and s.index == ^index,
+      distinct: s.team
   end
 end
