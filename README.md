@@ -14,6 +14,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - [] Finish NCAAB scrapers
   - [X] Coaches Poll
   - [] Sagarin
+    - going to need regex  /\d{1,3}\s+[a-zA-Z]+\s+=\s+\d+\.\d+/g
   - [X] Massey
   - [] TeamRankings
 - [X] Setup database backup policy
