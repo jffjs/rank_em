@@ -2,7 +2,7 @@ defmodule RankEm.Scrapers do
   alias RankEm.Scrapers
 
   # TODO:
-  # NCAAB: Sagarin, TeamRankings
+  # NCAAB:  TeamRankings
   @scrapers Enum.map(
               [
                 Scrapers.NCAAB.Kenpom,
@@ -10,7 +10,8 @@ defmodule RankEm.Scrapers do
                 Scrapers.NCAAB.Net,
                 Scrapers.NCAAB.ApPoll,
                 Scrapers.NCAAB.CoachesPoll,
-                Scrapers.NCAAB.Massey
+                Scrapers.NCAAB.Massey,
+                Scrapers.NCAAB.Sagarin
               ],
               &Atom.to_string/1
             )

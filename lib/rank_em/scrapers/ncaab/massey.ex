@@ -1,7 +1,6 @@
 defmodule RankEm.Scrapers.NCAAB.Massey do
   @behaviour RankEm.Scrapers.Scraper
 
-  import RankEm.Scrapers.TableHelpers
   alias RankEm.Scrapers.NCAAB.Normalize
 
   @url "https://www.masseyratings.com/ratejson.php?s=309912&sub=11590"

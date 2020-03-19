@@ -80,15 +80,28 @@ defmodule RankEm.Rankings do
   end
 
   def list_index_teams_diff(league, index1, index2) do
-    q1 = teams_query(league, index1)
-    q2 = teams_query(league, index2) |> except(^q1)
+    q1 = distinct_teams_query(league, index1)
+    q2 = distinct_teams_query(league, index2) |> except(^q1)
     Repo.all(q2)
   end
 
-  defp teams_query(league, index) do
+  def list_index_conferences_diff(league, index1, index2) do
+    q1 = distinct_conferences_query(league, index1)
+    q2 = distinct_conferences_query(league, index2) |> except(^q1)
+    Repo.all(q2)
+  end
+
+  defp distinct_teams_query(league, index) do
     from s in Snapshot,
       select: s.team,
       where: s.league == ^league and s.index == ^index,
       distinct: s.team
+  end
+
+  defp distinct_conferences_query(league, index) do
+    from s in Snapshot,
+      select: s.conference,
+      where: s.league == ^league and s.index == ^index,
+      distinct: s.conference
   end
 end
