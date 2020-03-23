@@ -3,9 +3,13 @@ defmodule RankEm.Rankings do
 
   alias RankEm.Repo
   alias RankEm.Rankings
-  alias RankEm.Rankings.Snapshot
+  alias RankEm.Rankings.{League, Snapshot}
 
   @leagues ~w(ncaab)
+
+  def create_leagues(attrs) do
+    %League{} |> League.changeset(attrs) |> Repo.insert()
+  end
 
   def list_leagues() do
     @leagues
