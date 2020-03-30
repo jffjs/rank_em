@@ -45,6 +45,9 @@ defmodule RankEmWeb.Router do
   scope "/api/v1", RankEmWeb.API.V1, as: :api_v1 do
     pipe_through :api
 
+    get "/leagues", LeagueController, :index
+    get "/leagues/:league/indexes", LeagueController, :indexes
+
     get "/rankings/:league/:index", RankingsController, :index
 
     get "/teams/:league", TeamController, :index

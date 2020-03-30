@@ -4,6 +4,12 @@ defmodule RankEm.Rankings.NCAAB do
   alias RankEm.Repo
   alias RankEm.Rankings.Snapshot
 
+  @indexes ~w(ap_poll coaches_poll kenpom massey net sagarin torvik)
+
+  def list_indexes() do
+    @indexes
+  end
+
   def list_team_rankings(team) do
     team |> latest_team_snapshots_by_index() |> Repo.all()
   end

@@ -11,6 +11,8 @@ defmodule RankEm.Rankings do
     @leagues
   end
 
+  def list_league_indexes("ncaab"), do: Rankings.NCAAB.list_indexes()
+
   def list_teams(league) do
     query =
       from s in Snapshot,
