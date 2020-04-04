@@ -31,7 +31,7 @@ defmodule RankEm.Scheduling.Scheduler do
   end
 
   def handle_info(:check_schedules, schedules) do
-    log("Checking schedules...")
+    Logger.debug("Checking schedules...")
 
     for schedule <- schedules do
       {:ok, schedule} =
