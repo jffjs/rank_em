@@ -1,6 +1,7 @@
 defmodule RankEmWeb.Router do
   use RankEmWeb, :router
   use Pow.Phoenix.Router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -27,6 +28,8 @@ defmodule RankEmWeb.Router do
 
   scope "/admin", RankEmWeb.Admin do
     pipe_through [:browser, :protected]
+
+    live_dashboard "/sys_dashboard", metrics: RankEmWeb.Telemetry
 
     resources "/schedules", ScheduleController
     resources "/jobs", JobController, only: [:index, :new, :create, :show]

@@ -10,6 +10,8 @@ defmodule RankEm.Application do
     children = [
       # Start the Ecto repository
       RankEm.Repo,
+      {Phoenix.PubSub, name: RankEm.PubSub},
+      RankEmWeb.Telemetry,
       # Start the endpoint when the application starts
       RankEmWeb.Endpoint,
       # Starts a worker by calling: RankEm.Worker.start_link(arg)

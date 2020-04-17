@@ -15,7 +15,8 @@ config :rank_em, RankEmWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "6N3SFuqnsIYSg5LICAAhG9mWPOodXZyhVfF3n+Qx9x8im/JXtUfTyl8Tg/ynV9LB",
   render_errors: [view: RankEmWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: RankEm.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: RankEm.PubSub,
+  live_view: [signing_salt: "Ob6xX7eZDrZi3KiqqJo+IlW8KUHfB6Ag"]
 
 # Configures Elixir's Logger
 config :logger, :console,
