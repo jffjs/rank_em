@@ -31,7 +31,7 @@
       <% end %>
       </td>
       <td>
-      <%= if job.start_ts do %>
+      <%= if job.end_ts do %>
         <%= NaiveDateTime.to_iso8601(job.end_ts) %>
       <% end %>
       </td>
