@@ -174,6 +174,10 @@ defmodule RankEm.Scheduling do
     Task.Supervisor.async(Scheduling.JobSupervisor, Scheduling, :execute_job, [job])
   end
 
+  def stop_job(%Job{status: "running"} = job) do
+    job_failed(job, "Job stopped manually.")
+  end
+
   defp job_successful(%Job{status: "running"} = job) do
     end_ts = NaiveDateTime.utc_now()
     update_job(job, %{end_ts: end_ts, status: "done"})

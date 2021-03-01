@@ -10,4 +10,11 @@ defmodule RankEm.Reports do
 
     Repo.all(query)
   end
+
+  def list_hung_jobs(running_time_seconds \\ 3600) do
+    threshold_ts = NaiveDateTime.add(NaiveDateTime.utc_now(), -running_time_seconds)
+    query = from j in Job, where: j.start_ts <= ^threshold_ts and j.status == "running"
+
+    Repo.all(query)
+  end
 end

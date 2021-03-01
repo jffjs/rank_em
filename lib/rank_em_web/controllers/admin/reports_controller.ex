@@ -13,4 +13,9 @@ defmodule RankEmWeb.Admin.ReportsController do
     jobs = Reports.list_failed_jobs(from, to)
     render(conn, "failed_jobs.html", jobs: jobs)
   end
+
+  def hung_jobs(conn, _params) do
+    jobs = Reports.list_hung_jobs()
+    render(conn, "hung_jobs.html", jobs: jobs)
+  end
 end

@@ -2,4 +2,5 @@
 
 <ul>
   <li><%= link "Failed Jobs", to: Routes.reports_path(@conn, :failed_jobs) %></li>
+  <li><%= link "Hung Jobs", to: Routes.reports_path(@conn, :hung_jobs) %></li>
 </ul>

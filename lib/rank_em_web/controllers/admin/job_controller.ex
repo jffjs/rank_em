@@ -40,4 +40,13 @@ defmodule RankEmWeb.Admin.JobController do
       |> redirect(to: Routes.job_path(conn, :show, job))
     end
   end
+
+  def stop(conn, %{"id" => id}) do
+    job = Scheduling.get_job!(id)
+    Scheduling.stop_job(job)
+
+    conn
+    |> put_flash(:info, "Job stopped.")
+    |> redirect(to: Routes.job_path(conn, :show, job))
+  end
 end

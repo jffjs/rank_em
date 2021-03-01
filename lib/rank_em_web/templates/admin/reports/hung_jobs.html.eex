@@ -1,16 +1,13 @@
-<h1>Failed Jobs</h1>
+<h1>Hung Jobs</h1>
 
-<h3>Last 24 hours</h3>
+<h3>Jobs running for 1 hour or more</h3>
 
 <table>
   <thead>
     <tr>
       <th>Id</th>
       <th>Scraper</th>
-      <th>Failure Message</th>
-      <th>Duration (sec)</th>
       <th>Started at</th>
-      <th>Ended at</th>
       <th></th>
     </tr>
   </thead>
@@ -19,20 +16,9 @@
     <tr>
       <td><%= job.id %>
       <td><%= shorten_scraper_name(job.scraper) %></td>
-      <td><%= job.failure_msg %></td>
-      <td>
-      <%= if job.start_ts && job.end_ts do %>
-        <%= NaiveDateTime.diff(job.end_ts, job.start_ts) %>
-      <% end %>
-      </td>
       <td>
       <%= if job.start_ts do %>
         <%= NaiveDateTime.to_iso8601(job.start_ts) %>
-      <% end %>
-      </td>
-      <td>
-      <%= if job.start_ts do %>
-        <%= NaiveDateTime.to_iso8601(job.end_ts) %>
       <% end %>
       </td>
       <td>

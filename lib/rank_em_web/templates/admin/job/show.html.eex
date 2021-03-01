@@ -19,4 +19,10 @@
   </form>
 <% end %>
 
+<%= if @job.status == "running" do %>
+  <%= form_for @conn, Routes.job_path(@conn, :stop, @job)%>
+    <%= submit "Stop Job" %>
+  </form>
+<% end %>
+
 <span><%= link "Back", to: Routes.job_path(@conn, :index) %></span>
