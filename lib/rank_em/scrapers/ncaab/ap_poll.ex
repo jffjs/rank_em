@@ -4,7 +4,7 @@ defmodule RankEm.Scrapers.NCAAB.ApPoll do
   import RankEm.Scrapers.TableHelpers
   alias RankEm.Scrapers.NCAAB.Normalize
 
-  @url "https://apnews.com/APTop25CollegeBasketballPoll"
+  @url "https://collegebasketball.ap.org/hometownsource/poll"
 
   @impl RankEm.Scrapers.Scraper
   def scrape() do
@@ -40,8 +40,8 @@ defmodule RankEm.Scrapers.NCAAB.ApPoll do
     %{}
     |> put_from_column(row, 1, :rank)
     |> put_from_column_with_link(row, 3, :team)
-    |> put_win_loss(row)
-    |> put_from_column(row, 5, :conference)
+    |> put_from_column(row, 4, :conference)
+    |> put_from_column(row, 5, :win_loss)
     |> put_from_column(row, 6, "points")
   end
 
