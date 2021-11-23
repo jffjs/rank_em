@@ -45,24 +45,6 @@ defmodule RankEm.Scrapers.NCAAB.ApPoll do
     |> put_from_column(row, 6, "points")
   end
 
-  defp put_win_loss(attrs, row) do
-    case row |> column(3) |> Floki.find("span[class^='record']") |> List.first() do
-      {"span", _, children} ->
-        Map.put(
-          attrs,
-          :win_loss,
-          children
-          |> Enum.filter(&is_binary/1)
-          |> Enum.join()
-          |> String.trim()
-          |> String.replace(~r/[\(\)]/, "")
-        )
-
-      _ ->
-        attrs
-    end
-  end
-
   defp valid_attrs?(attrs), do: attrs[:rank] && attrs[:team]
 
   defp convert_attrs(attrs) do
